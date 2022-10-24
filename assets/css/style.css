@@ -1,0 +1,12 @@
+header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.highScores {
+    display: inline;
+}
+
+.timeLeft {
+    display: inline;
+}   
