@@ -1,3 +1,7 @@
+var qs = function (tag) {
+    return document.querySelector(tag);
+}
+
 var quiz = document.getElementById("quiz");
 
 var questions = [
@@ -58,6 +62,22 @@ var questions = [
 ]
 
 var currentQ = 0;
+var timeLeft = 0;
+var timerEl = qs("#timeLeft");
+
+var startTimer = function() {
+    interval = setInterval(function (){
+        timeLeft--;
+        timerEl.textContent = "Time: " + timeLeft;
+        
+
+        if (timeLeft === 0){
+            gameOver();
+        }
+        
+    }, 1000)
+}
+
 
 function homepage(){
     // var quizTitle = document.createElement('p');
@@ -75,6 +95,11 @@ function homepage(){
     .addEventListener(
         'click', 
         function () {
+            //set Time Left to 10 Seconds and start timer
+            timeLeft = 10;
+            timerEl.textContent = "Time: " + 10;
+            startTimer();
+            // change page to questions
             questionPage(questions[currentQ])
         }
     )
@@ -101,9 +126,13 @@ function questionPage(question){
                 alert('Good Job!');
             } else {
                 alert('WRONG!');
-                //take time off
             }
             currentQ++
+
+            if (questions.length === currentQ){
+                gameWonScreen();
+            }
+
             questionPage(questions[currentQ])
         }
     )
@@ -122,7 +151,7 @@ function questionPage(question){
             currentQ++
 
             if (questions.length === currentQ){
-                gameDoneScreen();
+                gameWonScreen();
             }
 
             questionPage(questions[currentQ])
@@ -140,15 +169,28 @@ function questionPage(question){
                 alert('WRONG!');
             }
             currentQ++
+
+            if (questions.length === currentQ){
+                gameWonScreen();
+            }
+
             questionPage(questions[currentQ])
         }
     )
 }
 
-function gameDoneScreen(){
+function gameWonScreen(){
     quiz.innerHTML = /* html */ `
         <h1>NICE WORK</h1>   
     `
+}
+
+function gameOver(){
+    quiz.innerHTML = /* html */ `
+        <h1>GAME OVER</h1>
+    `
+    clearInterval(interval);
+
 }
 
 homepage();
