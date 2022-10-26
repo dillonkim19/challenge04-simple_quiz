@@ -261,7 +261,16 @@ function gameOver(){
 
     quiz.innerHTML = /* html */ `
         <h1>GAME OVER</h1>
+        <button id="playAgain">Play Again</button>
     `
+
+    playAgainButton.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        homepage();
+    
+        
+    });
     
 
 }
