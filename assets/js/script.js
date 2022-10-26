@@ -6,54 +6,54 @@ var quiz = document.getElementById("quiz");
 
 var questions = [
     {
-        title: 'Question 1: ;alskdjf',
+        title: 'Question 1: What does JS stand for?',
         answers: [
             {
-                answer: 1,
+                answer: "Just Sing",
                 correct: false
             },
             {
-                answer: 100,
+                answer: "Jumbo Shrimp",
                 correct: false
             },
             {
-                answer: 123,
+                answer: "JavaScript",
                 correct: true
             }
             
         ]
     },
     {
-        title: 'Question 2: ;alskdjf',
+        title: 'Question 2: What does CSS Stand for?',
         answers: [
             {
-                answer: 234,
+                answer: "IDK",
                 correct: false
             },
             {
-                answer: 432,
-                correct: false
-            },
-            {
-                answer: 123,
+                answer: "Cascading Style Sheets",
                 correct: true
+            },
+            {
+                answer: "Cool Summer Shirts",
+                correct: false
             }
             
         ]
     },
     {
-        title: 'Question 3: ;alskdjf',
+        title: 'Question 3: What is the latest HTML version?',
         answers: [
             {
-                answer: 234,
+                answer: 4,
                 correct: false
             },
             {
-                answer: 432,
+                answer: 3,
                 correct: false
             },
             {
-                answer: 123,
+                answer: 5,
                 correct: true
             }
             
@@ -84,7 +84,34 @@ var startTimer = function() {
 //     localStorage.setItem("initials", initials)
 // }
 
+document
+.getElementById('highScores')
+.addEventListener(
+    'click', 
+    function () {
+        quiz.innerHTML = /* html */ `
+        <div id="highScores"><h2>High Scores</h2><div>
+        <button id="resetScores">Reset Scores</button>
+        <button id="homePage">Home</button>
+    `
 
+    var scoresEl = document.getElementById("highScores")
+    var homeButton = document.querySelector("#homePage")
+    var resetButton = document.querySelector("#resetScores")
+
+    resetButton.addEventListener("click", function(){
+        localStorage.setItem("scoresObj", null);
+    })
+
+    homeButton.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        homepage();
+    
+        
+    });
+    }
+)
 
 function homepage(){
     // var quizTitle = document.createElement('p');
@@ -263,6 +290,8 @@ function gameOver(){
         <h1>GAME OVER</h1>
         <button id="playAgain">Play Again</button>
     `
+
+    var playAgainButton = document.querySelector("#playAgain");
 
     playAgainButton.addEventListener("click", function(event) {
         event.preventDefault();
