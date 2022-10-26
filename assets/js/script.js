@@ -89,11 +89,31 @@ document
 .addEventListener(
     'click', 
     function () {
-        quiz.innerHTML = /* html */ `
-        <div id="highScores"><h2>High Scores</h2><div>
+
+    quiz.innerHTML = /* html */ `
+        <h2>High Scores</h2>
+        <ul id="scoreList">
+        
+        </ul>
         <button id="resetScores">Reset Scores</button>
         <button id="homePage">Home</button>
     `
+
+    var scoresArray = JSON.parse(localStorage.getItem("scoresObj"))
+    var scoreListEl = qs("#scoreList");
+
+    if (scoresArray === null){
+
+    } else {
+        for (var i = 0; i < scoresArray.length; i++) {
+            var listitem = document.createElement("li");
+            
+            var scoreHTML = "Initial: " + scoresArray[i].initial + ", " + scoresArray[i].time
+            listitem.innerHTML = scoreHTML;
+            scoreListEl.appendChild(listitem)
+            
+        }
+    }
 
     var scoresEl = document.getElementById("highScores")
     var homeButton = document.querySelector("#homePage")
