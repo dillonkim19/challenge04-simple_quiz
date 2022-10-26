@@ -1,9 +1,9 @@
+// function for query selector 
 var qs = function (tag) {
     return document.querySelector(tag);
 }
 
-var quiz = document.getElementById("quiz");
-
+// array of questions
 var questions = [
     {
         title: 'Question 1: What does JS stand for?',
@@ -61,10 +61,14 @@ var questions = [
     }
 ]
 
+//variables for use
+var quiz = document.getElementById("quiz");
 var currentQ = 0;
 var timeLeft = 0;
 var timerEl = qs("#timeLeft");
 
+
+//start timer for quiz
 var startTimer = function() {
     interval = setInterval(function (){
         timeLeft--;
@@ -84,6 +88,8 @@ var startTimer = function() {
 //     localStorage.setItem("initials", initials)
 // }
 
+
+//when high scores button is clicked
 document
 .getElementById('highScores')
 .addEventListener(
@@ -99,6 +105,8 @@ document
         <button id="homePage">Home</button>
     `
 
+
+    // create the list elements of high scores
     var scoresArray = JSON.parse(localStorage.getItem("scoresObj"))
     var scoreListEl = qs("#scoreList");
 
@@ -119,6 +127,7 @@ document
     var homeButton = document.querySelector("#homePage")
     var resetButton = document.querySelector("#resetScores")
 
+    // when reset button is clicked, high scores are deleted
     resetButton.addEventListener("click", function(){
         localStorage.setItem("scoresObj", null);
     })
@@ -133,6 +142,7 @@ document
     }
 )
 
+// homepage
 function homepage(){
     // var quizTitle = document.createElement('p');
     // quizTitle.textContent = 'My Quiz'
@@ -161,6 +171,7 @@ function homepage(){
     )
 }
 
+// questions pages
 function questionPage(question){
     quiz.innerHTML = /* html */ `
         <p>
@@ -172,7 +183,7 @@ function questionPage(question){
             <li><button id="answerThree" data-correct="${question.answers[2].correct}">${question.answers[2].answer}</button></li>
         </ul>
     `
-
+    // when 1st option is clicked
     document
     .getElementById('answerOne')
     .addEventListener(
@@ -182,6 +193,7 @@ function questionPage(question){
                 alert('Good Job!');
             } else {
                 alert('WRONG!');
+                gameOver();
             }
             currentQ++
 
@@ -195,6 +207,7 @@ function questionPage(question){
         }
     )
 
+    // when 2nd option is clicked
     document
     .getElementById('answerTwo')
     .addEventListener(
@@ -204,6 +217,7 @@ function questionPage(question){
                 alert('Good Job!');
             } else {
                 alert('WRONG!');
+                gameOver();
             }
             
             currentQ++
@@ -218,6 +232,7 @@ function questionPage(question){
         }
     )
 
+    // when 3rd option is clicked
     document
     .getElementById('answerThree')
     .addEventListener(
@@ -227,6 +242,7 @@ function questionPage(question){
                 alert('Good Job!');
             } else {
                 alert('WRONG!');
+                gameOver();
             }
             currentQ++
 
@@ -242,7 +258,7 @@ function questionPage(question){
 }
 
 
-
+// game won page
 function gameWonScreen(){
     
     var timeLeft = timerEl.textContent;
@@ -260,6 +276,7 @@ function gameWonScreen(){
     var submitButton = document.querySelector("#submit");
     var playAgainButton = document.querySelector("#playAgain");
 
+    // when submit button is clicked, initial and time is stored in localstorage
     submitButton.addEventListener("click", function(event) {
         event.preventDefault();
     
@@ -276,7 +293,7 @@ function gameWonScreen(){
         var scoresArray = JSON.parse(localStorage.getItem("scoresObj"))
 
 
-
+        //if no scores are stored, make it, else add/push new scores
         if (scoresArray === null) {
             scoresArray = [{initial: initials, "time":timeLeft}]
             console.log(scoresArray);
@@ -288,7 +305,8 @@ function gameWonScreen(){
         localStorage.setItem("scoresObj", JSON.stringify(scoresArray));
         
     });
-
+    
+    // when play again button is clicked
     playAgainButton.addEventListener("click", function(event) {
         event.preventDefault();
 
@@ -301,7 +319,7 @@ function gameWonScreen(){
 
 
 
-
+//when time is over 
 function gameOver(){
     
     clearInterval(interval);
