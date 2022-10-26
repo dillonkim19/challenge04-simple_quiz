@@ -78,11 +78,20 @@ var startTimer = function() {
     }, 1000)
 }
 
+// function syncLocalStorage(timeLeft) {
+//     localStorage.setItem("points", points)
+//     localStorage.setItem("timeLeft", timeLeft)
+//     localStorage.setItem("initials", initials)
+// }
+
+
 
 function homepage(){
     // var quizTitle = document.createElement('p');
     // quizTitle.textContent = 'My Quiz'
     // quiz.appendChild(quiztitle);
+
+    currentQ = 0;
 
     quiz.innerHTML = /* html */ `
         <p>
@@ -131,9 +140,11 @@ function questionPage(question){
 
             if (questions.length === currentQ){
                 gameWonScreen();
+            } else {
+                questionPage(questions[currentQ])
             }
 
-            questionPage(questions[currentQ])
+            
         }
     )
 
@@ -152,9 +163,11 @@ function questionPage(question){
 
             if (questions.length === currentQ){
                 gameWonScreen();
+            } else {
+                questionPage(questions[currentQ])
             }
 
-            questionPage(questions[currentQ])
+            
         }
     )
 
@@ -172,24 +185,84 @@ function questionPage(question){
 
             if (questions.length === currentQ){
                 gameWonScreen();
+            } else {
+                questionPage(questions[currentQ])
             }
 
-            questionPage(questions[currentQ])
+            
         }
     )
 }
 
+
+
 function gameWonScreen(){
+    
+    var timeLeft = timerEl.textContent;
+    clearInterval(interval);
+
     quiz.innerHTML = /* html */ `
-        <h1>NICE WORK</h1>   
+        <h1>NICE WORK</h1> 
+        <h2>Input Initials to Save Score!</h2>
+        <label for="">Initials</label>
+        <input type="text" name="initials" id="initials" placeholder="DK" />  
+        <button id="submit">Submit</button>
+        <button id="playAgain">Play Again</button>
     `
+
+    var submitButton = document.querySelector("#submit");
+    var playAgainButton = document.querySelector("#playAgain");
+
+    submitButton.addEventListener("click", function(event) {
+        event.preventDefault();
+    
+        var initials = document.querySelector("#initials").value;
+    
+        if (initials === "") {
+            alert("error", "Initials cannot be blank");
+          } else {
+            alert("success", "Registered successfully");
+        }
+
+
+        
+        var scoresArray = JSON.parse(localStorage.getItem("scoresObj"))
+
+
+
+        if (scoresArray === null) {
+            scoresArray = [{initial: initials, "time":timeLeft}]
+            console.log(scoresArray);
+        } else {
+            scoresArray.push({initial: initials, "time":timeLeft})
+            console.log(scoresArray);
+        }
+        
+        localStorage.setItem("scoresObj", JSON.stringify(scoresArray));
+        
+    });
+
+    playAgainButton.addEventListener("click", function(event) {
+        event.preventDefault();
+
+        homepage();
+    
+        
+    });
 }
 
+
+
+
+
 function gameOver(){
+    
+    clearInterval(interval);
+
     quiz.innerHTML = /* html */ `
         <h1>GAME OVER</h1>
     `
-    clearInterval(interval);
+    
 
 }
 
